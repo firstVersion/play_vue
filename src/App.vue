@@ -1,18 +1,51 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+
+    <div>
+      <ul>
+        <li v-for="(log,i) in this.logs" :key="i">
+          {{log}}
+        </li>
+      </ul>
+    </div>
+
+    <div v-if="this.messages.length>0">
+    <hr>
+      <ul>
+        <li>
+          <span v-for="(msg,i) in this.messages" :key="i" v-on:click="messages.splice(i,1)">
+          {{msg}}
+          </span>
+        </li>
+      </ul>
+      <input type="button" value="送信" @click="this.sendMessage" >
+    </div>
+<hr>
+    <Palette v-on:push="pushWord" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Palette from './components/Palette.vue'
 export default {
   name: 'app',
   components: {
-    HelloWorld
-  }
+    Palette
+  },
+  data:()=>{return {
+    messages:[],
+    logs:[]
+  }},
+  methods: {
+    pushWord(msg){
+      this.messages.push(msg);
+    },
+    sendMessage(){
+      this.logs.push(this.messages.join(""));
+      this.messages = [];
+    }
+  },
+
 }
 </script>
 
